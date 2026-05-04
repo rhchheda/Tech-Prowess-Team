@@ -7,6 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ─────────────────────────────────────────
+   CONFIG — update logo Google Drive links here
+   Replace the URL with your Drive file view link
+   Format: https://drive.google.com/uc?export=view&id=FILE_ID
+──────────────────────────────────────────── */
+
 :root {
   --navy: #0d1b3e;
   --navy-mid: #1a2f5e;
@@ -20,985 +26,607 @@
   --text-soft: #6b7a99;
   --border: rgba(201,168,76,0.25);
   --shadow: 0 20px 60px rgba(13,27,62,0.12);
+  --footer-h: 44px;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--cream);
-  color: var(--text-dark);
-  overflow-x: hidden;
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--text-dark);
+  overflow-x:hidden;
+  padding-bottom:var(--footer-h);
 }
+
+/* ── STICKY FOOTER ── */
+.sticky-footer{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:var(--footer-h);
+  background:var(--navy);
+  border-top:1px solid rgba(201,168,76,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  z-index:200;
+}
+.sticky-footer-text{
+  font-size:11px;
+  color:rgba(255,255,255,0.45);
+  letter-spacing:0.06em;
+  text-align:center;
+}
+.sticky-footer-text span{color:var(--gold);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;}
+
+/* ── NAV with logos ── */
+.nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:100;
+  padding:0.65rem 1.5rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:background 0.3s,backdrop-filter 0.3s;
+  gap:1rem;
+}
+.nav.scrolled{
+  background:rgba(13,27,62,0.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(201,168,76,0.15);
+}
+.nav-logo{
+  width:48px;height:48px;
+  border-radius:8px;
+  object-fit:contain;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(201,168,76,0.2);
+  display:block;
+  flex-shrink:0;
+}
+.nav-logo-placeholder{
+  width:48px;height:48px;
+  border-radius:8px;
+  background:rgba(255,255,255,0.06);
+  border:1px dashed rgba(201,168,76,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:rgba(255,255,255,0.25);
+  letter-spacing:0.05em;text-align:center;
+  line-height:1.3;flex-shrink:0;
+}
+.nav-center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex:1;
+}
+.nav-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:600;
+  color:var(--white);line-height:1;
+}
+.nav-brand span{color:var(--gold);}
+.nav-links{
+  display:flex;gap:1.25rem;
+  list-style:none;margin-top:2px;
+}
+.nav-links a{
+  font-size:10px;font-weight:500;
+  letter-spacing:0.07em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+  text-decoration:none;transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--gold);}
 
 /* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  background: var(--navy);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  padding: 4rem 2rem;
+.hero{
+  min-height:100vh;
+  background:var(--navy);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  padding:6rem 2rem 4rem;
 }
-
-.hero-grid {
-  position: absolute;
-  inset: 0;
+.hero-grid{
+  position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: gridPan 20s linear infinite;
+    linear-gradient(rgba(201,168,76,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,0.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridPan 20s linear infinite;
 }
+@keyframes gridPan{0%{transform:translateY(0);}100%{transform:translateY(60px);}}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 8s ease-in-out infinite;}
+.orb1{width:500px;height:500px;background:rgba(201,168,76,0.08);top:-100px;right:-100px;animation-delay:0s;}
+.orb2{width:350px;height:350px;background:rgba(26,47,94,0.4);bottom:-50px;left:-80px;animation-delay:-4s;}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.05);}}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:860px;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(201,168,76,0.3);
+  padding:6px 18px;border-radius:30px;margin-bottom:2rem;
+  animation:fadeUp 0.8s ease both;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:20px;height:1px;background:var(--gold);opacity:0.5;}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,8vw,88px);font-weight:600;
+  color:var(--white);line-height:1.05;margin-bottom:0.5rem;
+  animation:fadeUp 0.8s 0.15s ease both;
+}
+.hero-title span{color:var(--gold);font-style:italic;}
+.hero-tagline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,2.5vw,24px);font-style:italic;
+  color:rgba(255,255,255,0.5);margin-bottom:2.5rem;
+  animation:fadeUp 0.8s 0.3s ease both;
+}
+.hero-orgs{
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;flex-wrap:wrap;margin-bottom:3rem;
+  animation:fadeUp 0.8s 0.45s ease both;
+}
+.org-chip{
+  font-size:12px;font-weight:500;
+  color:rgba(255,255,255,0.65);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:5px 14px;border-radius:20px;
+}
+.hero-stats{
+  display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 0.8s 0.6s ease both;
+}
+.hero-stat{text-align:center;}
+.hero-stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;font-weight:600;color:var(--gold);line-height:1;
+}
+.hero-stat-label{
+  font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);margin-top:4px;
+}
+.scroll-cue{
+  position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  animation:fadeUp 1s 1s ease both;
+}
+.scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine{
+  0%{transform:scaleY(0);transform-origin:top;}
+  50%{transform:scaleY(1);transform-origin:top;}
+  51%{transform:scaleY(1);transform-origin:bottom;}
+  100%{transform:scaleY(0);transform-origin:bottom;}
+}
+.scroll-text{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 
-@keyframes gridPan {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(60px); }
+/* ── SECTION BASE ── */
+section{padding:5.5rem 2rem;}
+.container{max-width:1000px;margin:0 auto;}
+.section-label{display:flex;align-items:center;gap:12px;margin-bottom:1rem;}
+.section-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);opacity:0.85;}
+.section-line{flex:1;height:1px;background:var(--border);max-width:60px;}
+.section-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(30px,4vw,46px);font-weight:600;
+  color:var(--navy);margin-bottom:0.9rem;line-height:1.15;
 }
+.section-heading em{color:var(--gold);font-style:italic;}
+.section-sub{font-size:15px;color:var(--text-soft);line-height:1.75;max-width:620px;margin-bottom:2.75rem;}
 
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  animation: orbFloat 8s ease-in-out infinite;
-}
-.orb1 { width: 500px; height: 500px; background: rgba(201,168,76,0.08); top: -100px; right: -100px; animation-delay: 0s; }
-.orb2 { width: 350px; height: 350px; background: rgba(26,47,94,0.4); bottom: -50px; left: -80px; animation-delay: -4s; }
-
-@keyframes orbFloat {
-  0%,100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-30px) scale(1.05); }
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 820px;
-}
-
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid rgba(201,168,76,0.3);
-  padding: 6px 18px;
-  border-radius: 30px;
-  margin-bottom: 2rem;
-  animation: fadeUp 0.8s ease both;
-}
-
-.hero-eyebrow::before, .hero-eyebrow::after {
-  content: '';
-  width: 20px; height: 1px;
-  background: var(--gold);
-  opacity: 0.5;
-}
-
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(52px, 8vw, 88px);
-  font-weight: 600;
-  color: var(--white);
-  line-height: 1.05;
-  margin-bottom: 0.5rem;
-  animation: fadeUp 0.8s 0.15s ease both;
-}
-
-.hero-title span {
-  color: var(--gold);
-  font-style: italic;
-}
-
-.hero-tagline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(18px, 2.5vw, 24px);
-  font-style: italic;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 2.5rem;
-  animation: fadeUp 0.8s 0.3s ease both;
-}
-
-.hero-orgs {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
-  animation: fadeUp 0.8s 0.45s ease both;
-}
-
-.org-chip {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 5px 14px;
-  border-radius: 20px;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeUp 0.8s 0.6s ease both;
-}
-
-.hero-stat {
-  text-align: center;
-}
-
-.hero-stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 42px;
-  font-weight: 600;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.hero-stat-label {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
-  margin-top: 4px;
-}
-
-.scroll-cue {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  animation: fadeUp 1s 1s ease both;
-}
-
-.scroll-line {
-  width: 1px;
-  height: 50px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: scrollLine 2s ease-in-out infinite;
-}
-
-@keyframes scrollLine {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  51% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
-}
-
-.scroll-text {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── SECTIONS ── */
-section {
-  padding: 6rem 2rem;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1rem;
-}
-
-.section-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--gold);
-  opacity: 0.8;
-}
-
-.section-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-  max-width: 60px;
-}
-
-.section-heading {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 1rem;
-  line-height: 1.15;
-}
-
-.section-heading em {
-  color: var(--gold);
-  font-style: italic;
-}
-
-.section-sub {
-  font-size: 15px;
-  color: var(--text-soft);
-  line-height: 1.75;
-  max-width: 600px;
-  margin-bottom: 3rem;
-}
+/* dark section overrides */
+.dark-section .section-heading{color:var(--white);}
+.dark-section .section-sub{color:rgba(255,255,255,0.5);}
+.dark-section .section-num{opacity:0.6;}
+.dark-section .section-line{background:rgba(201,168,76,0.2);}
 
 /* ── VISION ── */
-.vision-section {
-  background: var(--white);
+.vision-section{background:var(--white);}
+.vision-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:2px;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
 }
-
-.vision-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
+.vision-card{padding:2.25rem;background:var(--cream);transition:background 0.3s;}
+.vision-card:hover{background:#f0ece0;}
+.vision-card.dark{background:var(--navy);}
+.vision-card.dark:hover{background:var(--navy-mid);}
+.vision-card-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(201,168,76,0.15);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.25rem;font-size:20px;
 }
+.vision-card.dark .vision-card-icon{background:rgba(201,168,76,0.12);}
+.vision-card-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:0.5rem;}
+.vision-card.dark .vision-card-title{color:var(--white);}
+.vision-card-text{font-size:14px;line-height:1.75;color:var(--text-soft);}
+.vision-card.dark .vision-card-text{color:rgba(255,255,255,0.5);}
 
-.vision-card {
-  padding: 2.5rem;
-  background: var(--cream);
-  transition: background 0.3s;
+/* ── LIFECYCLE ── */
+.structure-section{background:var(--cream);}
+.structure-image-block{
+  background:var(--navy);border-radius:16px;
+  padding:3rem;margin-bottom:2rem;position:relative;overflow:hidden;
 }
-
-.vision-card:hover { background: #f0ece0; }
-.vision-card.dark { background: var(--navy); }
-.vision-card.dark:hover { background: var(--navy-mid); }
-
-.vision-card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(201,168,76,0.15);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-  font-size: 20px;
-}
-
-.vision-card.dark .vision-card-icon {
-  background: rgba(201,168,76,0.12);
-}
-
-.vision-card-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 0.5rem;
-}
-
-.vision-card.dark .vision-card-title { color: var(--white); }
-
-.vision-card-text {
-  font-size: 14px;
-  line-height: 1.75;
-  color: var(--text-soft);
-}
-
-.vision-card.dark .vision-card-text { color: rgba(255,255,255,0.55); }
-
-/* ── PROGRAM STRUCTURE ── */
-.structure-section { background: var(--cream); }
-
-.structure-image-block {
-  background: var(--navy);
-  border-radius: 16px;
-  padding: 3rem;
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.structure-image-block::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+.structure-image-block::before{
+  content:'';position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px);
+  background-size:40px 40px;
 }
+.flow-visual{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+}
+.flow-node{flex:1;min-width:100px;text-align:center;}
+.flow-node-circle{
+  width:60px;height:60px;border-radius:50%;
+  border:1px solid rgba(201,168,76,0.4);
+  background:rgba(201,168,76,0.08);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 0.75rem;font-size:22px;
+  transition:all 0.3s;
+}
+.flow-node:hover .flow-node-circle{background:rgba(201,168,76,0.2);border-color:var(--gold);transform:scale(1.08);}
+.flow-node-label{font-size:11px;font-weight:500;color:var(--white);letter-spacing:0.04em;}
+.flow-node-sub{font-size:10px;color:rgba(255,255,255,0.38);margin-top:3px;}
+.flow-connector{
+  width:30px;height:1px;
+  background:linear-gradient(to right,rgba(201,168,76,0.4),rgba(201,168,76,0.8),rgba(201,168,76,0.4));
+  flex-shrink:0;position:relative;
+}
+.flow-connector::after{
+  content:'';position:absolute;right:-4px;top:-3px;
+  border:4px solid transparent;border-left:6px solid rgba(201,168,76,0.8);
+}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.rule-card{
+  background:var(--white);border:1px solid rgba(13,27,62,0.08);
+  border-radius:14px;padding:1.6rem;position:relative;overflow:hidden;
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.rule-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(13,27,62,0.1);}
+.rule-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--gold),var(--gold-light));}
+.rule-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.1em;margin-bottom:0.6rem;}
+.rule-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.rule-text{font-size:13px;line-height:1.7;color:var(--text-soft);}
 
-.flow-visual {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+/* ── PS DESIGN ── */
+.ps-section{background:var(--white);}
+.ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.ps-card{
+  border:1px solid rgba(13,27,62,0.08);border-radius:14px;
+  padding:1.6rem;background:var(--cream);
+  transition:transform 0.25s,box-shadow 0.25s;
 }
+.ps-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(13,27,62,0.08);}
+.ps-card-tag{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;}
+.ps-card-title{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.ps-card-text{font-size:13px;line-height:1.7;color:var(--text-soft);}
+.tier-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.5rem;}
+.tier-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:12px;
+  border:1px solid;flex:1;min-width:140px;
+}
+.tier-badge.beginner{background:#e8f5e9;border-color:#c8e6c9;color:#1b5e20;}
+.tier-badge.inter{background:#fff8e1;border-color:#ffe082;color:#e65100;}
+.tier-badge.advanced{background:#ffebee;border-color:#ffcdd2;color:#b71c1c;}
+.tier-name{font-size:13px;font-weight:600;}
+.tier-desc{font-size:11px;opacity:0.75;}
 
-.flow-node {
-  flex: 1;
-  min-width: 110px;
-  text-align: center;
+/* ── REVIEWER ── */
+.reviewer-section{background:var(--navy);}
+.reviewer-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.rev-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(201,168,76,0.15);
+  border-radius:14px;padding:1.6rem;
+  transition:background 0.25s,border-color 0.25s;
 }
-
-.flow-node-circle {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 1px solid rgba(201,168,76,0.4);
-  background: rgba(201,168,76,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 0.75rem;
-  font-size: 24px;
-  transition: all 0.3s;
+.rev-card:hover{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.3);}
+.rev-card-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.1em;margin-bottom:0.6rem;}
+.rev-card-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:0.4rem;}
+.rev-card-text{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.5);}
+.escalation-flow{
+  margin-top:1.5rem;
+  background:rgba(201,168,76,0.06);
+  border:1px solid rgba(201,168,76,0.15);
+  border-radius:14px;padding:1.5rem;
+  display:flex;align-items:center;gap:0;flex-wrap:wrap;
 }
-
-.flow-node:hover .flow-node-circle {
-  background: rgba(201,168,76,0.2);
-  border-color: var(--gold);
-  transform: scale(1.08);
+.esc-step{
+  font-size:12px;font-weight:500;
+  color:rgba(255,255,255,0.7);
+  padding:6px 14px;
+  border-radius:20px;
+  border:1px solid rgba(201,168,76,0.25);
+  background:rgba(201,168,76,0.08);
+  white-space:nowrap;
 }
-
-.flow-node-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--white);
-  letter-spacing: 0.04em;
-}
-
-.flow-node-sub {
-  font-size: 10px;
-  color: rgba(255,255,255,0.4);
-  margin-top: 3px;
-}
-
-.flow-connector {
-  width: 40px;
-  height: 1px;
-  background: linear-gradient(to right, rgba(201,168,76,0.4), rgba(201,168,76,0.8), rgba(201,168,76,0.4));
-  flex-shrink: 0;
-  position: relative;
-}
-
-.flow-connector::after {
-  content: '';
-  position: absolute;
-  right: -4px;
-  top: -3px;
-  border: 4px solid transparent;
-  border-left: 6px solid rgba(201,168,76,0.8);
-}
-
-/* ── TEAM RULES ── */
-.rules-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.rule-card {
-  background: var(--white);
-  border: 1px solid rgba(13,27,62,0.08);
-  border-radius: 14px;
-  padding: 1.75rem;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.rule-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(13,27,62,0.1);
-}
-
-.rule-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(to right, var(--gold), var(--gold-light));
-}
-
-.rule-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--gold);
-  letter-spacing: 0.1em;
-  margin-bottom: 0.75rem;
-}
-
-.rule-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 0.5rem;
-}
-
-.rule-text {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-soft);
-}
+.esc-arrow{font-size:14px;color:rgba(201,168,76,0.5);padding:0 8px;}
 
 /* ── AUTH ── */
-.auth-section { background: var(--navy); }
-
-.auth-section .section-heading { color: var(--white); }
-.auth-section .section-sub { color: rgba(255,255,255,0.5); }
-.auth-section .section-num { opacity: 0.6; }
-.auth-section .section-line { background: rgba(201,168,76,0.2); }
-
-.otp-visual {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(201,168,76,0.2);
-  border-radius: 16px;
-  padding: 2.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+.auth-section{background:var(--cream);}
+.otp-visual{
+  background:var(--navy);border:1px solid rgba(201,168,76,0.2);
+  border-radius:16px;padding:2.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
 }
-
-.otp-step {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+.otp-step{display:flex;gap:16px;align-items:flex-start;}
+.otp-step-num{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);
+  color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:13px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-
-.otp-step-num {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(201,168,76,0.15);
-  border: 1px solid rgba(201,168,76,0.3);
-  color: var(--gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.otp-step-title{font-size:14px;font-weight:500;color:var(--white);margin-bottom:4px;}
+.otp-step-text{font-size:12px;line-height:1.6;color:rgba(255,255,255,0.45);}
+.otp-rule-box{
+  grid-column:1/-1;border-top:1px solid rgba(201,168,76,0.15);
+  padding-top:1.5rem;display:flex;gap:1.5rem;flex-wrap:wrap;
 }
+.otp-rule-item{display:flex;align-items:center;gap:8px;}
+.otp-rule-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.otp-rule-text{font-size:12px;color:rgba(255,255,255,0.5);}
 
-.otp-step-title {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--white);
-  margin-bottom: 4px;
+/* ── ELIGIBILITY ── */
+.eligibility-section{background:var(--white);}
+.elig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.elig-card{
+  background:var(--cream);border:1px solid rgba(13,27,62,0.08);
+  border-radius:14px;padding:1.5rem;
+  transition:transform 0.25s,box-shadow 0.25s;
 }
-
-.otp-step-text {
-  font-size: 12px;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.45);
-}
-
-.otp-rule-box {
-  grid-column: 1 / -1;
-  border-top: 1px solid rgba(201,168,76,0.15);
-  padding-top: 1.5rem;
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.otp-rule-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.otp-rule-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
-}
-
-.otp-rule-text {
-  font-size: 12px;
-  color: rgba(255,255,255,0.55);
-}
+.elig-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(13,27,62,0.08);}
+.elig-icon{font-size:28px;margin-bottom:0.75rem;}
+.elig-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.elig-text{font-size:13px;line-height:1.65;color:var(--text-soft);}
 
 /* ── EMAIL CARDS ── */
-.emails-section { background: var(--cream); }
-
-.email-showcase {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
+.emails-section{background:var(--cream);}
+.email-showcase{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.email-mockup{
+  background:var(--white);border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 30px rgba(13,27,62,0.08);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.email-mockup:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(13,27,62,0.15);}
+.email-mockup-header{
+  background:var(--navy);padding:0.85rem 1.15rem;
+  display:flex;align-items:center;gap:8px;
+}
+.email-dot{width:8px;height:8px;border-radius:50%;}
+.d-red{background:#ff5f57;}.d-yellow{background:#febc2e;}.d-green{background:#28c840;}
+.email-from{font-size:10px;color:rgba(255,255,255,0.35);margin-left:8px;font-family:'JetBrains Mono',monospace;}
+.email-body{padding:1.15rem;}
+.email-kle-bar{
+  background:var(--navy);border-radius:8px 8px 0 0;
+  padding:7px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;
+}
+.email-kle-name{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.08em;}
+.email-kle-sub{font-size:9px;color:rgba(255,255,255,0.38);}
+.email-subject{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.email-preview{font-size:11px;color:var(--text-soft);line-height:1.6;margin-bottom:1rem;}
+.email-cta-btn{
+  display:inline-block;background:var(--navy);color:var(--gold);
+  font-size:11px;font-weight:600;letter-spacing:0.06em;
+  padding:8px 18px;border-radius:6px;text-decoration:none;
+  border:1px solid rgba(201,168,76,0.3);
+}
+.email-footer-bar{
+  border-top:1px solid rgba(13,27,62,0.07);
+  padding:7px 12px;font-size:9px;color:var(--text-soft);
+  background:#faf8f3;border-radius:0 0 8px 8px;
 }
 
-.email-mockup {
-  background: var(--white);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(13,27,62,0.08);
-  transition: transform 0.25s, box-shadow 0.25s;
+/* ── VERSION & DRAFTS ── */
+.version-section{background:var(--navy);}
+.version-timeline{display:flex;flex-direction:column;gap:0;position:relative;}
+.version-timeline::before{
+  content:'';position:absolute;left:20px;top:0;bottom:0;
+  width:1px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,0.1));
 }
-
-.email-mockup:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(13,27,62,0.15);
+.version-row{
+  display:flex;gap:1.5rem;align-items:flex-start;
+  padding-bottom:1.75rem;position:relative;
 }
-
-.email-mockup-header {
-  background: var(--navy);
-  padding: 1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.version-dot{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(201,168,76,0.4);
+  background:rgba(201,168,76,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;position:relative;z-index:1;
 }
-
-.email-dot { width: 8px; height: 8px; border-radius: 50%; }
-.d-red { background: #ff5f57; }
-.d-yellow { background: #febc2e; }
-.d-green { background: #28c840; }
-
-.email-from {
-  font-size: 10px;
-  color: rgba(255,255,255,0.4);
-  margin-left: 8px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.email-body {
-  padding: 1.25rem;
-}
-
-.email-kle-bar {
-  background: var(--navy);
-  border-radius: 8px 8px 0 0;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.email-kle-name {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--gold);
-  letter-spacing: 0.08em;
-}
-
-.email-kle-sub {
-  font-size: 9px;
-  color: rgba(255,255,255,0.4);
-}
-
-.email-subject {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 6px;
-}
-
-.email-preview {
-  font-size: 11px;
-  color: var(--text-soft);
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.email-cta-btn {
-  display: inline-block;
-  background: var(--navy);
-  color: var(--gold);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 8px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  border: 1px solid rgba(201,168,76,0.3);
-}
-
-.email-footer-bar {
-  border-top: 1px solid rgba(13,27,62,0.08);
-  padding: 8px 12px;
-  font-size: 9px;
-  color: var(--text-soft);
-  background: #faf8f3;
-  border-radius: 0 0 8px 8px;
-}
+.version-content{}
+.version-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.1em;margin-bottom:4px;}
+.version-title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.version-text{font-size:13px;line-height:1.65;color:rgba(255,255,255,0.45);}
 
 /* ── SCORING ── */
-.scoring-section { background: var(--white); }
+.scoring-section{background:var(--white);}
+.scoring-visual{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.score-bars{display:flex;flex-direction:column;gap:1rem;}
+.score-bar-row{display:flex;flex-direction:column;gap:6px;}
+.score-bar-label{display:flex;justify-content:space-between;align-items:center;}
+.score-bar-name{font-size:13px;font-weight:500;color:var(--navy);}
+.score-bar-pct{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);}
+.score-bar-track{height:6px;background:rgba(13,27,62,0.08);border-radius:6px;overflow:hidden;}
+.score-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),var(--gold-light));border-radius:6px;width:0;transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94);}
+.score-info{background:var(--cream);border-radius:14px;padding:2rem;border:1px solid rgba(201,168,76,0.2);}
+.score-info-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:1rem;}
+.score-info-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:0.75rem;}
+.score-info-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:7px;flex-shrink:0;}
+.score-info-text{font-size:13px;color:var(--text-soft);line-height:1.6;}
 
-.scoring-visual {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: start;
+/* ── SIMILARITY ── */
+.similarity-section{background:var(--cream);}
+.sim-card{
+  background:var(--navy);border-radius:16px;padding:2.5rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
 }
+.sim-left{}
+.sim-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--white);margin-bottom:0.75rem;}
+.sim-text{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.5);margin-bottom:1.25rem;}
+.sim-steps{display:flex;flex-direction:column;gap:8px;}
+.sim-step{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:10px 14px;border-radius:10px;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.12);
+}
+.sim-step-icon{font-size:16px;flex-shrink:0;}
+.sim-step-text{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;}
+.sim-right{display:flex;flex-direction:column;gap:10px;}
+.sim-stat{
+  background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);
+  border-radius:12px;padding:1.25rem;text-align:center;
+}
+.sim-stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--gold);line-height:1;}
+.sim-stat-label{font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;letter-spacing:0.06em;}
 
-.score-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* ── COHORT ── */
+.cohort-section{background:var(--white);}
+.cohort-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.cohort-card{
+  background:var(--cream);border:1px solid rgba(13,27,62,0.08);
+  border-radius:14px;padding:1.5rem;
+  transition:transform 0.25s,box-shadow 0.25s;
 }
-
-.score-bar-row {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.score-bar-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.score-bar-name {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--navy);
-}
-
-.score-bar-pct {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--gold);
-}
-
-.score-bar-track {
-  height: 6px;
-  background: rgba(13,27,62,0.08);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.score-bar-fill {
-  height: 100%;
-  background: linear-gradient(to right, var(--gold), var(--gold-light));
-  border-radius: 6px;
-  width: 0;
-  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.score-info {
-  background: var(--cream);
-  border-radius: 14px;
-  padding: 2rem;
-  border: 1px solid rgba(201,168,76,0.2);
-}
-
-.score-info-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 1rem;
-}
-
-.score-info-item {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-}
-
-.score-info-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  margin-top: 7px;
-  flex-shrink: 0;
-}
-
-.score-info-text {
-  font-size: 13px;
-  color: var(--text-soft);
-  line-height: 1.6;
-}
+.cohort-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(13,27,62,0.08);}
+.cohort-card-icon{font-size:28px;margin-bottom:0.75rem;}
+.cohort-card-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.cohort-card-text{font-size:13px;line-height:1.65;color:var(--text-soft);}
+.sheet-table-wrap{margin-top:1.75rem;border:1px solid rgba(13,27,62,0.08);border-radius:14px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--navy);font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:0.07em;padding:9px 14px;text-align:left;color:rgba(255,255,255,0.6);border-bottom:1px solid rgba(201,168,76,0.15);}
+td{padding:9px 14px;border-bottom:0.5px solid rgba(13,27,62,0.06);color:var(--text-dark);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(13,27,62,0.07);padding:2px 6px;border-radius:4px;}
 
 /* ── PHASES ── */
-.phases-section { background: var(--cream); }
-
-.phase-timeline {
-  position: relative;
-  display: flex;
-  gap: 0;
-}
-
-.phase-timeline::before {
-  content: '';
-  position: absolute;
-  top: 32px;
-  left: 32px;
-  right: 32px;
-  height: 1px;
-  background: linear-gradient(to right, var(--gold), rgba(201,168,76,0.2));
-}
-
-.phase-block {
-  flex: 1;
-  padding-top: 4rem;
-  padding-left: 1.5rem;
-  padding-right: 1rem;
-  position: relative;
-}
-
-.phase-block::before {
-  content: '';
-  position: absolute;
-  top: 24px;
-  left: 1.5rem;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid var(--gold);
-  background: var(--cream);
-}
-
-.phase-block.active::before {
-  background: var(--gold);
-}
-
-.phase-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--gold);
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-}
-
-.phase-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 0.75rem;
-}
-
-.phase-items {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.phase-items li {
-  font-size: 12px;
-  color: var(--text-soft);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.phase-items li::before {
-  content: '';
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--gold);
-  opacity: 0.6;
-  flex-shrink: 0;
-}
+.phases-section{background:var(--cream);}
+.phase-timeline{position:relative;display:flex;gap:0;}
+.phase-timeline::before{content:'';position:absolute;top:32px;left:32px;right:32px;height:1px;background:linear-gradient(to right,var(--gold),rgba(201,168,76,0.2));}
+.phase-block{flex:1;padding-top:4rem;padding-left:1.5rem;padding-right:1rem;position:relative;}
+.phase-block::before{content:'';position:absolute;top:24px;left:1.5rem;width:16px;height:16px;border-radius:50%;border:2px solid var(--gold);background:var(--cream);}
+.phase-block.active::before{background:var(--gold);}
+.phase-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.1em;margin-bottom:0.5rem;}
+.phase-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:0.75rem;}
+.phase-items{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.phase-items li{font-size:12px;color:var(--text-soft);display:flex;align-items:center;gap:6px;}
+.phase-items li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0.6;flex-shrink:0;}
 
 /* ── INCENTIVES ── */
-.incentives-section { background: var(--navy); }
-.incentives-section .section-heading { color: var(--white); }
-.incentives-section .section-sub { color: rgba(255,255,255,0.5); }
-.incentives-section .section-num { opacity: 0.6; }
-.incentives-section .section-line { background: rgba(201,168,76,0.2); }
+.incentives-section{background:var(--navy);}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
+.badge-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.15);
+  border-radius:14px;padding:1.5rem;text-align:center;
+  transition:background 0.25s,border-color 0.25s,transform 0.25s;
+}
+.badge-card:hover{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.4);transform:translateY(-4px);}
+.badge-icon{font-size:34px;margin-bottom:0.75rem;display:block;}
+.badge-name{font-size:14px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.badge-desc{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.5;}
 
-.badge-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
+/* ── INDUSTRY & QR ── */
+.industry-section{background:var(--white);}
+.industry-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.industry-card{
+  border-radius:14px;padding:2rem;border:1px solid rgba(13,27,62,0.08);
+  background:var(--cream);transition:transform 0.25s,box-shadow 0.25s;
+}
+.industry-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(13,27,62,0.1);}
+.industry-card.featured{background:var(--navy);border-color:rgba(201,168,76,0.2);}
+.industry-card-icon{font-size:32px;margin-bottom:1rem;}
+.industry-card-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:0.5rem;}
+.industry-card.featured .industry-card-title{color:var(--white);}
+.industry-card-text{font-size:13px;line-height:1.7;color:var(--text-soft);}
+.industry-card.featured .industry-card-text{color:rgba(255,255,255,0.5);}
+.industry-tag{
+  display:inline-block;margin-top:1rem;
+  font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;
+  background:rgba(201,168,76,0.15);color:var(--gold);
+  border:1px solid rgba(201,168,76,0.3);
 }
 
-.badge-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(201,168,76,0.15);
-  border-radius: 14px;
-  padding: 1.5rem;
-  text-align: center;
-  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+/* ── FEEDBACK ── */
+.feedback-section{background:var(--cream);}
+.feedback-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;}
+.feedback-card{
+  background:var(--white);border:1px solid rgba(13,27,62,0.08);
+  border-radius:14px;padding:1.5rem;
+  transition:transform 0.25s,box-shadow 0.25s;
 }
+.feedback-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(13,27,62,0.08);}
+.feedback-card-icon{font-size:28px;margin-bottom:0.75rem;}
+.feedback-card-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:0.4rem;}
+.feedback-card-text{font-size:13px;line-height:1.65;color:var(--text-soft);}
 
-.badge-card:hover {
-  background: rgba(201,168,76,0.08);
-  border-color: rgba(201,168,76,0.4);
-  transform: translateY(-4px);
-}
-
-.badge-icon {
-  font-size: 36px;
-  margin-bottom: 0.75rem;
-  display: block;
-}
-
-.badge-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--white);
-  margin-bottom: 4px;
-}
-
-.badge-desc {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
-  line-height: 1.5;
-}
-
-/* ── FOOTER ── */
-.footer-section {
-  background: var(--navy);
-  border-top: 1px solid rgba(201,168,76,0.15);
-  padding: 3rem 2rem;
-  text-align: center;
-}
-
-.footer-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  font-weight: 600;
-  color: var(--white);
-  margin-bottom: 0.25rem;
-}
-
-.footer-logo span { color: var(--gold); font-style: italic; }
-
-.footer-tagline {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 15px;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 1.5rem;
-}
-
-.footer-orgs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.footer-org {
-  font-size: 11px;
-  color: rgba(255,255,255,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 4px 12px;
-  border-radius: 20px;
-}
-
-.footer-sig {
-  font-size: 12px;
-  color: rgba(255,255,255,0.25);
-  letter-spacing: 0.06em;
-}
+/* ── SECTION DIVIDER ── */
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);margin:0 2rem;}
 
 /* ── SCROLL REVEAL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
 
-/* ── NAV ── */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background 0.3s, backdrop-filter 0.3s;
-}
-
-.nav.scrolled {
-  background: rgba(13,27,62,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(201,168,76,0.15);
-}
-
-.nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--white);
-}
-
-.nav-brand span { color: var(--gold); }
-
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-  list-style: none;
-}
-
-.nav-links a {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.6);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover { color: var(--gold); }
-
-@media (max-width: 680px) {
-  .vision-grid,
-  .otp-visual,
-  .scoring-visual { grid-template-columns: 1fr; }
-  .phase-timeline { flex-direction: column; }
-  .phase-timeline::before { display: none; }
-  .nav-links { display: none; }
+@media(max-width:680px){
+  .vision-grid,.otp-visual,.scoring-visual,.sim-card,.industry-grid,.reviewer-grid,.ps-grid{grid-template-columns:1fr;}
+  .phase-timeline{flex-direction:column;}
+  .phase-timeline::before{display:none;}
+  .nav-links{display:none;}
+  .nav-center{display:none;}
 }
 </style>
 </head>
 <body>
 
+<!-- ════════════════════════════════════════════
+     CONFIG — SET YOUR LOGO URLs HERE
+     Replace null with your Google Drive view URL
+     Format: https://drive.google.com/uc?export=view&id=YOUR_FILE_ID
+     ════════════════════════════════════════════ -->
+<script>
+const LOGO_LEFT  = null; // e.g. "https://drive.google.com/uc?export=view&id=1aBcDeFgHiJkLmN"
+const LOGO_RIGHT = null; // e.g. "https://drive.google.com/uc?export=view&id=1xYzAbCdEfGhIjK"
+const LOGO_LEFT_ALT  = "KLE Tech";
+const LOGO_RIGHT_ALT = "Cshine";
+</script>
+
+<!-- STICKY FOOTER -->
+<div class="sticky-footer">
+  <span class="sticky-footer-text">Made with ❤ ~rhc &nbsp;·&nbsp; EE Lab, KLE-CTIE &nbsp;<span>·</span>&nbsp; Program Proposal v1.0 &nbsp;<span>·</span>&nbsp; May 2026</span>
+</div>
+
+<!-- NAV -->
 <nav class="nav" id="nav">
-  <div class="nav-brand">Tech <span>Prowess</span></div>
-  <ul class="nav-links">
-    <li><a href="#vision">Vision</a></li>
-    <li><a href="#structure">Structure</a></li>
-    <li><a href="#auth">Auth</a></li>
-    <li><a href="#scoring">Scoring</a></li>
-    <li><a href="#phases">Phases</a></li>
-  </ul>
+  <div id="navLogoLeft" class="nav-logo-placeholder">SET<br>LOGO</div>
+  <div class="nav-center">
+    <div class="nav-brand">Tech <span>Prowess</span> Team</div>
+    <ul class="nav-links">
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#ps">Problem Stmt</a></li>
+      <li><a href="#reviewer">Reviewer</a></li>
+      <li><a href="#auth">Auth</a></li>
+      <li><a href="#scoring">Scoring</a></li>
+      <li><a href="#cohort">Cohort</a></li>
+      <li><a href="#phases">Phases</a></li>
+    </ul>
+  </div>
+  <div id="navLogoRight" class="nav-logo-placeholder">SET<br>LOGO</div>
 </nav>
 
 <!-- HERO -->
@@ -1016,22 +644,11 @@ section {
       <span class="org-chip">EE Lab · KLE-CTIE</span>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">10K</div>
-        <div class="hero-stat-label">Students</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">2–4</div>
-        <div class="hero-stat-label">Team Size</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">2+</div>
-        <div class="hero-stat-label">Disciplines</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">3</div>
-        <div class="hero-stat-label">Phases</div>
-      </div>
+      <div class="hero-stat"><div class="hero-stat-num">10K</div><div class="hero-stat-label">Students</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">2–4</div><div class="hero-stat-label">Team Size</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">2+</div><div class="hero-stat-label">Disciplines</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Email Triggers</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Phases</div></div>
     </div>
   </div>
   <div class="scroll-cue">
@@ -1040,210 +657,178 @@ section {
   </div>
 </div>
 
-<!-- VISION -->
+<!-- 01 VISION -->
 <section class="vision-section" id="vision">
   <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">01 — Vision</span>
-      <div class="section-line"></div>
-    </div>
+    <div class="section-label reveal"><span class="section-num">01 — Vision</span><div class="section-line"></div></div>
     <h2 class="section-heading reveal">What is <em>Tech Prowess?</em></h2>
     <p class="section-sub reveal">A structured cross-disciplinary innovation program that transforms campus talent into a direct incubation pipeline — from problem statement to Cshine.</p>
     <div class="vision-grid reveal">
-      <div class="vision-card">
-        <div class="vision-card-icon">🎯</div>
-        <div class="vision-card-title">The Problem</div>
-        <div class="vision-card-text">10,000 students across diverse disciplines — yet innovation happens in silos. CS students build without domain context. Domain students lack technical depth. Potential is trapped.</div>
-      </div>
-      <div class="vision-card dark">
-        <div class="vision-card-icon">💡</div>
-        <div class="vision-card-title">The Solution</div>
-        <div class="vision-card-text">A formal program where cross-disciplinary teams are mandated — not optional. Every team must represent at least 2 branches. Ideas go through structured review with actionable feedback.</div>
-      </div>
-      <div class="vision-card dark">
-        <div class="vision-card-icon">🚀</div>
-        <div class="vision-card-title">The Outcome</div>
-        <div class="vision-card-text">Shortlisted ideas feed directly into Cshine's incubation pipeline. Best teams get mentors, certificates, badges, and a public demo day — creating real career impact.</div>
-      </div>
-      <div class="vision-card">
-        <div class="vision-card-icon">📐</div>
-        <div class="vision-card-title">The Scale</div>
-        <div class="vision-card-text">Built for 10K students from day one — no passwords, no credential management. Email OTP authentication tied to @kletech.ac.in ensures zero friction and verified identity.</div>
-      </div>
+      <div class="vision-card"><div class="vision-card-icon">🎯</div><div class="vision-card-title">The Problem</div><div class="vision-card-text">10,000 students across diverse disciplines — yet innovation happens in silos. CS students build without domain context. Domain students lack technical depth. Potential is trapped.</div></div>
+      <div class="vision-card dark"><div class="vision-card-icon">💡</div><div class="vision-card-title">The Solution</div><div class="vision-card-text">A formal program where cross-disciplinary teams are mandated — not optional. Every team must represent at least 2 branches. Ideas go through structured review with actionable feedback.</div></div>
+      <div class="vision-card dark"><div class="vision-card-icon">🚀</div><div class="vision-card-title">The Outcome</div><div class="vision-card-text">Shortlisted ideas feed directly into Cshine's incubation pipeline. Best teams get mentors, certificates, badges, and a public demo day — creating real career impact.</div></div>
+      <div class="vision-card"><div class="vision-card-icon">📐</div><div class="vision-card-title">The Scale</div><div class="vision-card-text">Built for 10K students from day one. Email OTP tied to @kletech.ac.in ensures zero friction, verified identity, and zero credential storage overhead.</div></div>
     </div>
   </div>
 </section>
 
-<!-- STRUCTURE -->
-<section class="structure-section" id="structure">
-  <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">02 — Structure</span>
-      <div class="section-line"></div>
-    </div>
-    <h2 class="section-heading reveal">Submission <em>Lifecycle</em></h2>
-    <p class="section-sub reveal">Every idea goes through a transparent 6-stage workflow — from problem posting to final decision, with full email accountability at every transition.</p>
+<div class="divider"></div>
 
+<!-- 02 LIFECYCLE -->
+<section class="structure-section" id="lifecycle">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">02 — Lifecycle</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Submission <em>Lifecycle</em></h2>
+    <p class="section-sub reveal">Every idea goes through a transparent 6-stage workflow with full email accountability at every transition and a defined revision loop.</p>
     <div class="structure-image-block reveal">
       <div class="flow-visual">
-        <div class="flow-node">
-          <div class="flow-node-circle">📋</div>
-          <div class="flow-node-label">PS Posted</div>
-          <div class="flow-node-sub">Admin / Cshine</div>
-        </div>
+        <div class="flow-node"><div class="flow-node-circle">📋</div><div class="flow-node-label">PS Posted</div><div class="flow-node-sub">Admin / Cshine</div></div>
         <div class="flow-connector"></div>
-        <div class="flow-node">
-          <div class="flow-node-circle">👥</div>
-          <div class="flow-node-label">Team Formed</div>
-          <div class="flow-node-sub">2–4 members</div>
-        </div>
+        <div class="flow-node"><div class="flow-node-circle">👥</div><div class="flow-node-label">Team Formed</div><div class="flow-node-sub">2–4 members</div></div>
         <div class="flow-connector"></div>
-        <div class="flow-node">
-          <div class="flow-node-circle">✅</div>
-          <div class="flow-node-label">Members Verified</div>
-          <div class="flow-node-sub">Email OTP</div>
-        </div>
+        <div class="flow-node"><div class="flow-node-circle">✅</div><div class="flow-node-label">Members Verified</div><div class="flow-node-sub">OTP invite</div></div>
         <div class="flow-connector"></div>
-        <div class="flow-node">
-          <div class="flow-node-circle">💡</div>
-          <div class="flow-node-label">Idea Submitted</div>
-          <div class="flow-node-sub">Team Lead</div>
-        </div>
+        <div class="flow-node"><div class="flow-node-circle">💡</div><div class="flow-node-label">Draft → Submit</div><div class="flow-node-sub">Auto-save draft</div></div>
         <div class="flow-connector"></div>
-        <div class="flow-node">
-          <div class="flow-node-circle">🔍</div>
-          <div class="flow-node-label">Under Review</div>
-          <div class="flow-node-sub">Blind scoring</div>
-        </div>
+        <div class="flow-node"><div class="flow-node-circle">🔍</div><div class="flow-node-label">Blind Review</div><div class="flow-node-sub">Assigned reviewer</div></div>
         <div class="flow-connector"></div>
-        <div class="flow-node">
-          <div class="flow-node-circle">🏆</div>
-          <div class="flow-node-label">Decision</div>
-          <div class="flow-node-sub">With remarks</div>
-        </div>
+        <div class="flow-node"><div class="flow-node-circle">🏆</div><div class="flow-node-label">Decision</div><div class="flow-node-sub">With remarks</div></div>
       </div>
     </div>
-
     <div class="rules-grid">
-      <div class="rule-card reveal reveal-delay-1">
-        <div class="rule-num">RULE 01</div>
-        <div class="rule-title">Cross-discipline Mandatory</div>
-        <div class="rule-text">Every team must have members from at least 2 different branches. Single-discipline submissions are blocked at the point of team formation.</div>
-      </div>
-      <div class="rule-card reveal reveal-delay-2">
-        <div class="rule-num">RULE 02</div>
-        <div class="rule-title">Team Lead Accountability</div>
-        <div class="rule-text">One designated Lead submits the idea, owns all communication, and is the point of contact for reviewer remarks. All co-members must accept via email CTA.</div>
-      </div>
-      <div class="rule-card reveal reveal-delay-3">
-        <div class="rule-num">RULE 03</div>
-        <div class="rule-title">Max 2 Resubmissions</div>
-        <div class="rule-text">Rejected ideas may be revised and resubmitted up to twice. After the second rejection, the submission is archived — preventing endless revision loops.</div>
-      </div>
-      <div class="rule-card reveal reveal-delay-4">
-        <div class="rule-num">RULE 04</div>
-        <div class="rule-title">Dropout Protocol</div>
-        <div class="rule-text">If a member drops, the team has 48 hours to replace or dissolve. Admin is auto-notified. Prevents ghost teams from occupying active problem statement slots.</div>
-      </div>
+      <div class="rule-card reveal reveal-delay-1"><div class="rule-num">RULE 01</div><div class="rule-title">Cross-discipline Mandatory</div><div class="rule-text">Every team must have members from at least 2 different branches. Single-discipline submissions are blocked at team formation.</div></div>
+      <div class="rule-card reveal reveal-delay-2"><div class="rule-num">RULE 02</div><div class="rule-title">Team Lead Accountability</div><div class="rule-text">One Lead submits the idea and owns all communication. All co-members must accept via email CTA within 48 hours or the invite expires.</div></div>
+      <div class="rule-card reveal reveal-delay-3"><div class="rule-num">RULE 03</div><div class="rule-title">Max 2 Resubmissions</div><div class="rule-text">Rejected ideas may be revised up to twice. Both versions stored for reviewer comparison. After 2nd rejection, submission is archived.</div></div>
+      <div class="rule-card reveal reveal-delay-4"><div class="rule-num">RULE 04</div><div class="rule-title">Dropout Protocol</div><div class="rule-text">If a member drops, the team has 48 hours to replace or dissolve. Admin auto-notified. Ghost teams cannot hold active PS slots.</div></div>
     </div>
   </div>
 </section>
 
-<!-- AUTH -->
+<div class="divider"></div>
+
+<!-- 03 PROBLEM STATEMENT DESIGN -->
+<section class="ps-section" id="ps">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">03 — Problem Statements</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Structured <em>Problem Design</em></h2>
+    <p class="section-sub reveal">Problem statements aren't just titles. Each PS has a template, a domain tag, a difficulty tier, a target audience, and a defined deadline — ensuring quality and fairness.</p>
+    <div class="ps-grid reveal">
+      <div class="ps-card"><div class="ps-card-tag">PS Template Fields</div><div class="ps-card-title">What Every PS Must Contain</div><div class="ps-card-text">Title, domain tag, difficulty tier, context background, expected deliverable type (prototype / research / business model), eligibility (year, branch), deadline, and PS owner contact.</div></div>
+      <div class="ps-card"><div class="ps-card-tag">Visibility Rules</div><div class="ps-card-title">Who Sees What</div><div class="ps-card-text">PS can be set as Open (all students), Targeted (specific branches or years), or Private (invite-only for industry partner challenges). Admin controls visibility per PS.</div></div>
+      <div class="ps-card"><div class="ps-card-tag">Deadline Management</div><div class="ps-card-title">What Happens at Deadline</div><div class="ps-card-text">Submissions lock automatically. Partial drafts are auto-saved but flagged as incomplete. Admin receives a summary of all submissions received before closure.</div></div>
+      <div class="ps-card"><div class="ps-card-tag">Who Posts PS</div><div class="ps-card-title">PS Ownership</div><div class="ps-card-text">Faculty, Cshine coordinators, or approved industry partners. Each PS has a named owner who is notified on every submission and is responsible for reviewer assignment.</div></div>
+    </div>
+    <div class="tier-row reveal">
+      <div class="tier-badge beginner"><span>🟢</span><div><div class="tier-name">Beginner</div><div class="tier-desc">1st & 2nd year teams</div></div></div>
+      <div class="tier-badge inter"><span>🟡</span><div><div class="tier-name">Intermediate</div><div class="tier-desc">3rd year teams</div></div></div>
+      <div class="tier-badge advanced"><span>🔴</span><div><div class="tier-name">Advanced</div><div class="tier-desc">Final year + mixed</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 04 REVIEWER LOGIC -->
+<section class="reviewer-section dark-section" id="reviewer">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">04 — Reviewer Logic</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Fair, <em>Structured</em> Review</h2>
+    <p class="section-sub reveal">Reviewer assignment isn't manual guesswork. A defined logic handles assignment, conflict checks, escalation, and panel sizing — automatically.</p>
+    <div class="reviewer-grid reveal">
+      <div class="rev-card"><div class="rev-card-num">ASSIGNMENT</div><div class="rev-card-title">How Reviewers Are Assigned</div><div class="rev-card-text">Auto-assigned by domain tag match from Reviewers sheet. Round-robin within same domain to balance load. Admin can override manually if needed.</div></div>
+      <div class="rev-card"><div class="rev-card-num">CONFLICT CHECK</div><div class="rev-card-title">Conflict of Interest Rule</div><div class="rev-card-text">Reviewer's department is cross-checked against each team member's branch. If a match is found, that reviewer is skipped and next eligible one is assigned.</div></div>
+      <div class="rev-card"><div class="rev-card-num">PANEL SIZE</div><div class="rev-card-title">How Many Reviewers per Submission</div><div class="rev-card-text">Standard: 1 reviewer. Escalated / borderline submissions: panel of 3. Panel average score used for final decision. Majority rules on Approve / Reject.</div></div>
+      <div class="rev-card"><div class="rev-card-num">MANDATORY REMARKS</div><div class="rev-card-title">No Decision Without Feedback</div><div class="rev-card-text">Submission field is locked until remarks are filled. Minimum 50-character feedback required before any decision is saved. Prevents empty rejections.</div></div>
+    </div>
+    <div class="escalation-flow reveal">
+      <span class="esc-step">Assigned</span><span class="esc-arrow">→</span>
+      <span class="esc-step">48hr No Response</span><span class="esc-arrow">→</span>
+      <span class="esc-step">Reminder Email</span><span class="esc-arrow">→</span>
+      <span class="esc-step">24hr Still Pending</span><span class="esc-arrow">→</span>
+      <span class="esc-step">Admin Alert</span><span class="esc-arrow">→</span>
+      <span class="esc-step">Reassigned</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 05 AUTH -->
 <section class="auth-section" id="auth">
   <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">03 — Authentication</span>
-      <div class="section-line"></div>
-    </div>
+    <div class="section-label reveal"><span class="section-num">05 — Authentication</span><div class="section-line"></div></div>
     <h2 class="section-heading reveal">Zero Password, <em>Full Trust</em></h2>
     <p class="section-sub reveal">At 10,000 students, password management is a liability. Email OTP tied to @kletech.ac.in provides verified identity with zero credential storage.</p>
     <div class="otp-visual reveal">
-      <div class="otp-step">
-        <div class="otp-step-num">01</div>
-        <div>
-          <div class="otp-step-title">Enter university email</div>
-          <div class="otp-step-text">Only @kletech.ac.in addresses accepted. Outsiders blocked automatically at entry point.</div>
-        </div>
-      </div>
-      <div class="otp-step">
-        <div class="otp-step-num">02</div>
-        <div>
-          <div class="otp-step-title">GAS generates 6-digit OTP</div>
-          <div class="otp-step-text">Stored in OTP_Sessions sheet with timestamp. Branded HTML email card dispatched instantly.</div>
-        </div>
-      </div>
-      <div class="otp-step">
-        <div class="otp-step-num">03</div>
-        <div>
-          <div class="otp-step-title">Student enters OTP in portal</div>
-          <div class="otp-step-text">Max 3 attempts before lockout. OTP expires in 10 minutes — re-request if expired.</div>
-        </div>
-      </div>
-      <div class="otp-step">
-        <div class="otp-step-num">04</div>
-        <div>
-          <div class="otp-step-title">Session starts, row cleared</div>
-          <div class="otp-step-text">Role resolved from Students sheet. OTP row deleted immediately — no residual credential stored anywhere.</div>
-        </div>
-      </div>
+      <div class="otp-step"><div class="otp-step-num">01</div><div><div class="otp-step-title">Enter university email</div><div class="otp-step-text">Only @kletech.ac.in accepted. Outsiders blocked automatically at entry.</div></div></div>
+      <div class="otp-step"><div class="otp-step-num">02</div><div><div class="otp-step-title">GAS generates 6-digit OTP</div><div class="otp-step-text">Stored in OTP_Sessions sheet with timestamp. Branded HTML card dispatched instantly.</div></div></div>
+      <div class="otp-step"><div class="otp-step-num">03</div><div><div class="otp-step-title">Student enters OTP in portal</div><div class="otp-step-text">Max 3 attempts before lockout. OTP expires in 10 minutes.</div></div></div>
+      <div class="otp-step"><div class="otp-step-num">04</div><div><div class="otp-step-title">Session starts, row cleared</div><div class="otp-step-text">Role resolved from Students sheet. OTP row deleted immediately — no residual data.</div></div></div>
       <div class="otp-rule-box">
         <div class="otp-rule-item"><div class="otp-rule-dot"></div><span class="otp-rule-text">@kletech.ac.in only</span></div>
         <div class="otp-rule-item"><div class="otp-rule-dot"></div><span class="otp-rule-text">10-minute expiry</span></div>
         <div class="otp-rule-item"><div class="otp-rule-dot"></div><span class="otp-rule-text">3 max attempts</span></div>
         <div class="otp-rule-item"><div class="otp-rule-dot"></div><span class="otp-rule-text">Zero credential storage</span></div>
         <div class="otp-rule-item"><div class="otp-rule-dot"></div><span class="otp-rule-text">Role auto-resolved</span></div>
+        <div class="otp-rule-item"><div class="otp-rule-dot"></div><span class="otp-rule-text">Team invite OTP-verified too</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EMAIL CARDS -->
+<div class="divider"></div>
+
+<!-- 06 ELIGIBILITY -->
+<section class="eligibility-section" id="eligibility">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">06 — Eligibility Rules</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Who Can <em>Participate?</em></h2>
+    <p class="section-sub reveal">Clear eligibility rules prevent ambiguity, ensure fairness across year groups, and protect the program's academic standing.</p>
+    <div class="elig-grid">
+      <div class="elig-card reveal reveal-delay-1"><div class="elig-icon">🎓</div><div class="elig-title">Year Requirement</div><div class="elig-text">All years eligible. Beginner-tier PS reserved for 1st & 2nd year. Advanced PS open to 3rd year and above only.</div></div>
+      <div class="elig-card reveal reveal-delay-2"><div class="elig-icon">⚠️</div><div class="elig-title">Backlog Standing</div><div class="elig-text">Students with active backlogs may participate but are flagged. Admin can set a policy per cohort — allowed / restricted / limited slots.</div></div>
+      <div class="elig-card reveal reveal-delay-3"><div class="elig-icon">🔒</div><div class="elig-title">Active Team Limit</div><div class="elig-text">A student may be in at most 1 active team at a time. Cross-team membership detected and blocked at invite acceptance.</div></div>
+      <div class="elig-card reveal reveal-delay-4"><div class="elig-icon">🏫</div><div class="elig-title">Discipline Verification</div><div class="elig-text">Branch auto-populated from Students sheet on login. Students cannot self-declare branch — sourced from university records only.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 07 EMAIL CARDS -->
 <section class="emails-section" id="emails">
   <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">04 — Email System</span>
-      <div class="section-line"></div>
-    </div>
+    <div class="section-label reveal"><span class="section-num">07 — Email System</span><div class="section-line"></div></div>
     <h2 class="section-heading reveal">Every Email is a <em>CTA Card</em></h2>
-    <p class="section-sub reveal">7 branded HTML email triggers — each with a single focused call-to-action. No plain text, no ambiguity. Every status change is a professional notification.</p>
+    <p class="section-sub reveal">7 branded HTML email triggers — each with a single focused call-to-action. No plain text. Every status change is a professional, accountable notification.</p>
     <div class="email-showcase">
       <div class="email-mockup reveal reveal-delay-1">
-        <div class="email-mockup-header">
-          <div class="email-dot d-red"></div><div class="email-dot d-yellow"></div><div class="email-dot d-green"></div>
-          <span class="email-from">noreply@kletech.ac.in</span>
-        </div>
+        <div class="email-mockup-header"><div class="email-dot d-red"></div><div class="email-dot d-yellow"></div><div class="email-dot d-green"></div><span class="email-from">noreply@kletech.ac.in</span></div>
         <div class="email-body">
           <div class="email-kle-bar"><span class="email-kle-name">KLE-CTIE · Tech Prowess</span><span class="email-kle-sub">Secure Login</span></div>
           <div class="email-subject">Your Login OTP</div>
           <div class="email-preview">Your one-time password is valid for 10 minutes. Do not share this with anyone.</div>
-          <div style="font-size:28px;font-family:'JetBrains Mono',monospace;font-weight:500;color:#0d1b3e;letter-spacing:0.2em;margin-bottom:1rem;">4 8 2 7 1 3</div>
+          <div style="font-size:26px;font-family:'JetBrains Mono',monospace;font-weight:500;color:#0d1b3e;letter-spacing:0.2em;margin-bottom:1rem;">4 8 2 7 1 3</div>
           <a class="email-cta-btn" href="#">Use This OTP →</a>
           <div class="email-footer-bar">Made with ❤ ~rhc · EE Lab, KLE-CTIE</div>
         </div>
       </div>
       <div class="email-mockup reveal reveal-delay-2">
-        <div class="email-mockup-header">
-          <div class="email-dot d-red"></div><div class="email-dot d-yellow"></div><div class="email-dot d-green"></div>
-          <span class="email-from">noreply@kletech.ac.in</span>
-        </div>
+        <div class="email-mockup-header"><div class="email-dot d-red"></div><div class="email-dot d-yellow"></div><div class="email-dot d-green"></div><span class="email-from">noreply@kletech.ac.in</span></div>
         <div class="email-body">
           <div class="email-kle-bar"><span class="email-kle-name">KLE-CTIE · Tech Prowess</span><span class="email-kle-sub">Team Invite</span></div>
           <div class="email-subject">You've been invited to a team</div>
-          <div class="email-preview">Rahul Kumar has invited you to join Team Nexus for Problem Statement #PS-2026-04. Accept to activate your membership.</div>
+          <div class="email-preview">Rahul Kumar has invited you to join Team Nexus for PS-2026-04. Accept within 48 hours to activate your membership.</div>
           <a class="email-cta-btn" href="#">Accept Invite →</a>
           <div class="email-footer-bar">Made with ❤ ~rhc · EE Lab, KLE-CTIE</div>
         </div>
       </div>
       <div class="email-mockup reveal reveal-delay-3">
-        <div class="email-mockup-header">
-          <div class="email-dot d-red"></div><div class="email-dot d-yellow"></div><div class="email-dot d-green"></div>
-          <span class="email-from">noreply@kletech.ac.in</span>
-        </div>
+        <div class="email-mockup-header"><div class="email-dot d-red"></div><div class="email-dot d-yellow"></div><div class="email-dot d-green"></div><span class="email-from">noreply@kletech.ac.in</span></div>
         <div class="email-body">
           <div class="email-kle-bar"><span class="email-kle-name">KLE-CTIE · Tech Prowess</span><span class="email-kle-sub">Decision</span></div>
-          <div class="email-subject">🎉 Your idea has been approved!</div>
-          <div class="email-preview">Congratulations! Team Nexus's submission for Smart Irrigation System has been approved by the review panel. View your full remarks and next steps.</div>
+          <div class="email-subject">Your idea has been approved</div>
+          <div class="email-preview">Team Nexus's submission for Smart Irrigation System has been approved. View full remarks and next steps below.</div>
           <a class="email-cta-btn" href="#">View Remarks & Next Steps →</a>
           <div class="email-footer-bar">Made with ❤ ~rhc · EE Lab, KLE-CTIE</div>
         </div>
@@ -1252,53 +837,192 @@ section {
   </div>
 </section>
 
-<!-- SCORING -->
-<section class="scoring-section" id="scoring">
+<div class="divider"></div>
+
+<!-- 08 DRAFT & VERSION HISTORY -->
+<section class="version-section dark-section" id="versions">
   <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">05 — Review & Scoring</span>
-      <div class="section-line"></div>
-    </div>
-    <h2 class="section-heading reveal">Weighted, <em>Blind</em> Review</h2>
-    <p class="section-sub reveal">Four criteria, transparent weightage, optional blind scoring to eliminate bias. Per-reviewer approval rate tracked by admin for governance.</p>
-    <div class="scoring-visual reveal">
-      <div class="score-bars" id="scoreBars">
-        <div class="score-bar-row">
-          <div class="score-bar-label"><span class="score-bar-name">Innovation & Originality</span><span class="score-bar-pct">30%</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill" data-width="30"></div></div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label"><span class="score-bar-name">Feasibility & Execution</span><span class="score-bar-pct">25%</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill" data-width="25"></div></div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label"><span class="score-bar-name">Cross-discipline Utilisation</span><span class="score-bar-pct">25%</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill" data-width="25"></div></div>
-        </div>
-        <div class="score-bar-row">
-          <div class="score-bar-label"><span class="score-bar-name">Clarity of Presentation</span><span class="score-bar-pct">20%</span></div>
-          <div class="score-bar-track"><div class="score-bar-fill" data-width="20"></div></div>
-        </div>
+    <div class="section-label reveal"><span class="section-num">08 — Drafts & Versions</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Nothing is <em>Lost</em></h2>
+    <p class="section-sub reveal">Auto-saved drafts and full version history on every resubmission — reviewers see exactly what changed, students never lose work.</p>
+    <div class="version-timeline reveal">
+      <div class="version-row">
+        <div class="version-dot">💾</div>
+        <div class="version-content"><div class="version-tag">DRAFT AUTOSAVE</div><div class="version-title">Idea saved every 60 seconds</div><div class="version-text">Students can close the browser and return — their draft is exactly where they left it, stored in the Drafts sheet against their Team-ID and PS-ID.</div></div>
       </div>
-      <div class="score-info">
-        <div class="score-info-title">Review Safeguards</div>
-        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Blind review option — reviewer sees submission without team or student names</div></div>
-        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Reviewer cannot be the submitting student's own faculty guide</div></div>
-        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Per-reviewer approval rate visible to admin for bias detection</div></div>
-        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">All remarks are mandatory — no decision without written feedback</div></div>
-        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Shortlisted ideas automatically flagged for Cshine incubation pipeline</div></div>
+      <div class="version-row">
+        <div class="version-dot">📤</div>
+        <div class="version-content"><div class="version-tag">VERSION 1 — ORIGINAL SUBMISSION</div><div class="version-title">First submission locks as v1</div><div class="version-text">On final submit, draft is promoted to Submissions sheet as Version 1. Draft row is cleared. A confirmation email card is dispatched to all team members.</div></div>
+      </div>
+      <div class="version-row">
+        <div class="version-dot">🔄</div>
+        <div class="version-content"><div class="version-tag">VERSION 2 — AFTER REVISION</div><div class="version-title">Resubmission stored as v2 alongside v1</div><div class="version-text">On resubmission, the updated content is saved as Version 2. Both versions visible to the reviewer side-by-side. Reviewer must acknowledge what changed before proceeding.</div></div>
+      </div>
+      <div class="version-row">
+        <div class="version-dot">🗃️</div>
+        <div class="version-content"><div class="version-tag">ARCHIVE</div><div class="version-title">All versions retained permanently</div><div class="version-text">Even after final decision, all versions are retained in the Idea_Versions sheet. Admin can retrieve full history for any submission at any time for audits or disputes.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PHASES -->
+<div class="divider"></div>
+
+<!-- 09 SCORING -->
+<section class="scoring-section" id="scoring">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">09 — Scoring</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Weighted, <em>Blind</em> Review</h2>
+    <p class="section-sub reveal">Four criteria, transparent weightage, optional blind scoring. Per-reviewer approval rate tracked by admin for governance and bias detection.</p>
+    <div class="scoring-visual reveal">
+      <div class="score-bars" id="scoreBars">
+        <div class="score-bar-row"><div class="score-bar-label"><span class="score-bar-name">Innovation & Originality</span><span class="score-bar-pct">30%</span></div><div class="score-bar-track"><div class="score-bar-fill" data-width="30"></div></div></div>
+        <div class="score-bar-row"><div class="score-bar-label"><span class="score-bar-name">Feasibility & Execution</span><span class="score-bar-pct">25%</span></div><div class="score-bar-track"><div class="score-bar-fill" data-width="25"></div></div></div>
+        <div class="score-bar-row"><div class="score-bar-label"><span class="score-bar-name">Cross-discipline Utilisation</span><span class="score-bar-pct">25%</span></div><div class="score-bar-track"><div class="score-bar-fill" data-width="25"></div></div></div>
+        <div class="score-bar-row"><div class="score-bar-label"><span class="score-bar-name">Clarity of Presentation</span><span class="score-bar-pct">20%</span></div><div class="score-bar-track"><div class="score-bar-fill" data-width="20"></div></div></div>
+      </div>
+      <div class="score-info">
+        <div class="score-info-title">Review Safeguards</div>
+        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Blind review — reviewer sees submission without team or student names</div></div>
+        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Reviewer's department cross-checked against team branches</div></div>
+        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Per-reviewer approval rate visible to admin for bias detection</div></div>
+        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Minimum 50-character remark required before any decision saves</div></div>
+        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Shortlisted ideas auto-flagged for Cshine incubation pipeline</div></div>
+        <div class="score-info-item"><div class="score-info-dot"></div><div class="score-info-text">Panel of 3 reviewers for borderline or escalated submissions</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 10 SIMILARITY DETECTION -->
+<section class="similarity-section" id="similarity">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">10 — Similarity Detection</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Catching <em>Duplicate</em> Ideas</h2>
+    <p class="section-sub reveal">Two teams submitting near-identical ideas for the same PS should be flagged — not silently approved twice.</p>
+    <div class="sim-card reveal">
+      <div class="sim-left">
+        <div class="sim-title">How It Works</div>
+        <div class="sim-text">A lightweight keyword similarity check runs on submission against all other submissions for the same PS. High similarity triggers a flag — not an automatic rejection.</div>
+        <div class="sim-steps">
+          <div class="sim-step"><div class="sim-step-icon">🔤</div><div class="sim-step-text">Title + idea description tokenised and compared against all submissions for same PS-ID</div></div>
+          <div class="sim-step"><div class="sim-step-icon">⚡</div><div class="sim-step-text">Similarity score above 60% → yellow flag added to both submissions in Submissions sheet</div></div>
+          <div class="sim-step"><div class="sim-step-icon">🔔</div><div class="sim-step-text">Admin notified with both submission IDs and similarity score for manual review</div></div>
+          <div class="sim-step"><div class="sim-step-icon">📋</div><div class="sim-step-text">Reviewer informed of flag before scoring — encouraged to check differentiation criteria</div></div>
+        </div>
+      </div>
+      <div class="sim-right">
+        <div class="sim-stat"><div class="sim-stat-num">60%</div><div class="sim-stat-label">Similarity threshold</div></div>
+        <div class="sim-stat"><div class="sim-stat-num">≠ ✗</div><div class="sim-stat-label">Flag ≠ auto-reject</div></div>
+        <div class="sim-stat"><div class="sim-stat-num">2</div><div class="sim-stat-label">Teams notified on flag</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 11 COHORT MANAGEMENT -->
+<section class="cohort-section" id="cohort">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">11 — Cohort Management</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Season by <em>Season</em></h2>
+    <p class="section-sub reveal">Each program run is a cohort — semester-bounded, independently tracked, and comparable across seasons for institutional analytics.</p>
+    <div class="cohort-grid">
+      <div class="cohort-card reveal reveal-delay-1"><div class="cohort-card-icon">📅</div><div class="cohort-card-title">Cohort-based Structure</div><div class="cohort-card-text">Each semester = one cohort. All PS, teams, and submissions are tagged with a cohort_id for clean separation and cross-cohort reporting.</div></div>
+      <div class="cohort-card reveal reveal-delay-2"><div class="cohort-card-icon">🔒</div><div class="cohort-card-title">Cohort Closure</div><div class="cohort-card-text">At semester end, admin closes the cohort. All open submissions are force-archived. A cohort summary report is auto-generated and emailed to admin.</div></div>
+      <div class="cohort-card reveal reveal-delay-3"><div class="cohort-card-icon">📊</div><div class="cohort-card-title">Cross-cohort Analytics</div><div class="cohort-card-text">Admin dashboard shows cohort-over-cohort trends: submissions, approval rate, branch participation, reviewer turnaround time.</div></div>
+      <div class="cohort-card reveal reveal-delay-4"><div class="cohort-card-icon">🔁</div><div class="cohort-card-title">Rolling vs Semester</div><div class="cohort-card-text">Default: semester-based. Admin can switch to rolling mode per cohort — useful for industry partner challenges with custom timelines.</div></div>
+    </div>
+    <div class="sheet-table-wrap reveal">
+      <table>
+        <thead><tr><th>Sheet</th><th>Purpose</th><th>Key Columns</th></tr></thead>
+        <tbody>
+          <tr><td><code>Students</code></td><td>Master student registry</td><td>USN, Name, Branch, Year, Email, Role</td></tr>
+          <tr><td><code>Problem_Statements</code></td><td>All PS with metadata</td><td>PS-ID, Title, Domain, Tier, Visibility, Cohort-ID, Deadline</td></tr>
+          <tr><td><code>Teams</code></td><td>Team formation records</td><td>Team-ID, Lead USN, Members, Branch-count, Status</td></tr>
+          <tr><td><code>Team_Invites</code></td><td>Pending / accepted invites</td><td>Invite-ID, Team-ID, Email, Token, Expiry, Status</td></tr>
+          <tr><td><code>Drafts</code></td><td>Auto-saved incomplete ideas</td><td>Team-ID, PS-ID, Content, Last-saved</td></tr>
+          <tr><td><code>Submissions</code></td><td>Final submitted ideas</td><td>Sub-ID, PS-ID, Team-ID, Title, Status, Similarity-flag</td></tr>
+          <tr><td><code>Idea_Versions</code></td><td>Full version history</td><td>Sub-ID, Version, Content, Submitted-on</td></tr>
+          <tr><td><code>Reviewer_Assignments</code></td><td>PS → reviewer mapping</td><td>Sub-ID, Reviewer, Assigned-on, Deadline, Status</td></tr>
+          <tr><td><code>Reviews</code></td><td>Scored decisions with remarks</td><td>Sub-ID, Scores×4, Remarks, Decision, Reviewed-on</td></tr>
+          <tr><td><code>OTP_Sessions</code></td><td>Ephemeral login tokens</td><td>Email, OTP, Generated-at, Attempts, Status</td></tr>
+          <tr><td><code>Cohorts</code></td><td>Semester / cohort registry</td><td>Cohort-ID, Name, Start, End, Status</td></tr>
+          <tr><td><code>Mentors</code></td><td>Mentor profiles & capacity</td><td>Mentor-ID, Name, Domain, Capacity, Assigned-teams</td></tr>
+          <tr><td><code>Certificates</code></td><td>Auto-generated on approval</td><td>USN, Team-ID, PS-ID, Issued-on</td></tr>
+          <tr><td><code>Feedback</code></td><td>Anonymous program feedback</td><td>Cohort-ID, Rating, Comment, Submitted-on</td></tr>
+          <tr><td><code>PS_Tags</code></td><td>Domain & difficulty masters</td><td>Tag-ID, Domain, Tier, Description</td></tr>
+          <tr><td><code>Dropdown_Masters</code></td><td>All validation lists</td><td>Branches, Domains, Status-values, Tiers</td></tr>
+          <tr><td><code>Showcase</code></td><td>Public-facing approved ideas</td><td>Sub-ID, Title, Team, Domain, Anonymous-flag</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 12 INDUSTRY & PUBLIC SHOWCASE -->
+<section class="industry-section" id="industry">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">12 — External Reach</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Beyond <em>Campus</em></h2>
+    <p class="section-sub reveal">Industry partners posting real challenges with bounties, and a public showcase that builds program credibility season over season.</p>
+    <div class="industry-grid">
+      <div class="industry-card featured reveal reveal-delay-1">
+        <div class="industry-card-icon">🏭</div>
+        <div class="industry-card-title">Industry Partner PS</div>
+        <div class="industry-card-text">Companies post problem statements directly through the portal with an attached bounty or internship offer. Creates real-world stakes and massively drives student engagement. Partner is notified on every submission automatically.</div>
+        <span class="industry-tag">Phase 2 feature</span>
+      </div>
+      <div class="industry-card reveal reveal-delay-2">
+        <div class="industry-card-icon">🌐</div>
+        <div class="industry-card-title">Public Idea Showcase</div>
+        <div class="industry-card-text">Approved ideas (anonymised or named, admin-controlled) visible on a public-facing page. Builds program credibility, motivates future participants, and gives approved teams a shareable URL to put on their resume.</div>
+        <span class="industry-tag">Phase 2 feature</span>
+      </div>
+      <div class="industry-card reveal reveal-delay-3">
+        <div class="industry-card-icon">📱</div>
+        <div class="industry-card-title">QR Campus Entry Points</div>
+        <div class="industry-card-text">Physical posters across campus — hostels, labs, canteen, library — with a QR code linking directly to the portal. Especially powerful during orientation week when new students are looking to engage.</div>
+        <span class="industry-tag">Phase 1 — low cost, high reach</span>
+      </div>
+      <div class="industry-card reveal reveal-delay-4">
+        <div class="industry-card-icon">💬</div>
+        <div class="industry-card-title">WhatsApp Bot Fallback</div>
+        <div class="industry-card-text">Students message a WhatsApp number → receive OTP → check submission status. Meets students where they already are. Especially useful for students who miss emails. Built on WhatsApp Business API.</div>
+        <span class="industry-tag">Phase 3 feature</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 13 ANONYMOUS FEEDBACK -->
+<section class="feedback-section" id="feedback">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">13 — Program Feedback</span><div class="section-line"></div></div>
+    <h2 class="section-heading reveal">Continuous <em>Improvement</em></h2>
+    <p class="section-sub reveal">Anonymous feedback after every cohort — on the program, the PS quality, and reviewer fairness. Feeds the admin dashboard so every season is better than the last.</p>
+    <div class="feedback-grid">
+      <div class="feedback-card reveal reveal-delay-1"><div class="feedback-card-icon">🙈</div><div class="feedback-card-title">Fully Anonymous</div><div class="feedback-card-text">No USN, no email, no team ID linked to feedback. Students are more honest when they know there's no trace. Triggered by an email at cohort closure.</div></div>
+      <div class="feedback-card reveal reveal-delay-2"><div class="feedback-card-icon">⭐</div><div class="feedback-card-title">Structured Rating</div><div class="feedback-card-text">5-point rating on: PS quality, portal usability, reviewer fairness, and overall experience. Plus a free-text comment field for detailed input.</div></div>
+      <div class="feedback-card reveal reveal-delay-3"><div class="feedback-card-icon">📈</div><div class="feedback-card-title">Admin Dashboard</div><div class="feedback-card-text">Aggregated per cohort — average scores, comment word cloud, and trend lines across seasons. Exportable to PDF for authority review presentations.</div></div>
+      <div class="feedback-card reveal reveal-delay-4"><div class="feedback-card-icon">🔁</div><div class="feedback-card-title">Action Loop</div><div class="feedback-card-text">Each cohort's feedback summary is reviewed by the program committee before the next cohort opens. Changes made are acknowledged in the next PS announcement email.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 14 PHASES -->
 <section class="phases-section" id="phases">
   <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">06 — Rollout</span>
-      <div class="section-line"></div>
-    </div>
+    <div class="section-label reveal"><span class="section-num">14 — Rollout</span><div class="section-line"></div></div>
     <h2 class="section-heading reveal">Three <em>Phases</em> to Scale</h2>
     <p class="section-sub reveal">Starting lean with core functionality, expanding to engagement and recognition, then scaling to full institutional integration.</p>
     <div class="phase-timeline reveal">
@@ -1306,12 +1030,16 @@ section {
         <div class="phase-tag">PHASE 01 · Foundation</div>
         <div class="phase-name">Core Portal</div>
         <ul class="phase-items">
-          <li>Google Sheet schema (17 tabs)</li>
+          <li>Google Sheet schema (17 sheets)</li>
           <li>GAS backend + OTP auth</li>
-          <li>Team formation & invites</li>
-          <li>Idea submission flow</li>
-          <li>Reviewer panel + remarks</li>
+          <li>Team formation & invite expiry</li>
+          <li>Draft autosave + final submit</li>
+          <li>Version history on resubmit</li>
+          <li>Reviewer assignment + escalation</li>
+          <li>Conflict of interest check</li>
           <li>Branded email cards (7 types)</li>
+          <li>Similarity flag on submission</li>
+          <li>QR campus entry posters</li>
         </ul>
       </div>
       <div class="phase-block">
@@ -1321,123 +1049,111 @@ section {
           <li>Leaderboard & rankings</li>
           <li>Auto-generated certificates</li>
           <li>Badges & achievements</li>
-          <li>Mentor portal access</li>
-          <li>WhatsApp fallback alerts</li>
+          <li>Mentor portal & assignment</li>
+          <li>Industry partner PS + bounty</li>
+          <li>Public idea showcase page</li>
           <li>Shareable portfolio links</li>
+          <li>Anonymous feedback system</li>
+          <li>Cohort analytics dashboard</li>
         </ul>
       </div>
       <div class="phase-block">
         <div class="phase-tag">PHASE 03 · Scale</div>
         <div class="phase-name">Integration</div>
         <ul class="phase-items">
-          <li>Cohort analytics dashboard</li>
           <li>Public demo day module</li>
           <li>Cshine direct handoff API</li>
           <li>SSO with KLE student portal</li>
           <li>Mobile-first UI redesign</li>
-          <li>Industry partner PS uploads</li>
+          <li>WhatsApp bot integration</li>
+          <li>Cross-cohort comparison reports</li>
+          <li>PDF admin summary exports</li>
+          <li>Credit recognition pipeline</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- INCENTIVES -->
-<section class="incentives-section" id="incentives">
+<div class="divider"></div>
+
+<!-- 15 INCENTIVES -->
+<section class="incentives-section dark-section" id="incentives">
   <div class="container">
-    <div class="section-label reveal">
-      <span class="section-num">07 — Incentives</span>
-      <div class="section-line"></div>
-    </div>
+    <div class="section-label reveal"><span class="section-num">15 — Incentives</span><div class="section-line"></div></div>
     <h2 class="section-heading reveal">Why Students Will <em>Care</em></h2>
-    <p class="section-sub reveal">Participation has to matter. Real recognition, real portfolio value, and a real chance at incubation — not just another college activity.</p>
+    <p class="section-sub reveal">Real recognition, real portfolio value, and a real shot at incubation — not just another college activity.</p>
     <div class="badge-grid">
-      <div class="badge-card reveal reveal-delay-1">
-        <span class="badge-icon">🏅</span>
-        <div class="badge-name">Certificates</div>
-        <div class="badge-desc">Auto-generated on approval, downloadable from portal instantly</div>
-      </div>
-      <div class="badge-card reveal reveal-delay-2">
-        <span class="badge-icon">⭐</span>
-        <div class="badge-name">Badges</div>
-        <div class="badge-desc">First Submission, Team Lead, Selected, Revision Champion</div>
-      </div>
-      <div class="badge-card reveal reveal-delay-3">
-        <span class="badge-icon">📊</span>
-        <div class="badge-name">Leaderboard</div>
-        <div class="badge-desc">Visible rankings across all teams and cohorts campus-wide</div>
-      </div>
-      <div class="badge-card reveal reveal-delay-4">
-        <span class="badge-icon">🔗</span>
-        <div class="badge-name">Portfolio Link</div>
-        <div class="badge-desc">Shareable public profile showing all submissions and achievements</div>
-      </div>
-      <div class="badge-card reveal reveal-delay-1">
-        <span class="badge-icon">🚀</span>
-        <div class="badge-name">Incubation Pipeline</div>
-        <div class="badge-desc">Top ideas directly fast-tracked to Cshine for incubation support</div>
-      </div>
-      <div class="badge-card reveal reveal-delay-2">
-        <span class="badge-icon">🎤</span>
-        <div class="badge-name">Demo Day</div>
-        <div class="badge-desc">Best teams present at a public event with industry audience</div>
-      </div>
+      <div class="badge-card reveal reveal-delay-1"><span class="badge-icon">🏅</span><div class="badge-name">Certificates</div><div class="badge-desc">Auto-generated on approval, downloadable instantly from portal</div></div>
+      <div class="badge-card reveal reveal-delay-2"><span class="badge-icon">⭐</span><div class="badge-name">Badges</div><div class="badge-desc">First Submission, Team Lead, Selected, Revision Champion</div></div>
+      <div class="badge-card reveal reveal-delay-3"><span class="badge-icon">📊</span><div class="badge-name">Leaderboard</div><div class="badge-desc">Visible campus-wide rankings across all teams and cohorts</div></div>
+      <div class="badge-card reveal reveal-delay-4"><span class="badge-icon">🔗</span><div class="badge-name">Portfolio Link</div><div class="badge-desc">Shareable profile showing all submissions and achievements</div></div>
+      <div class="badge-card reveal reveal-delay-1"><span class="badge-icon">🚀</span><div class="badge-name">Incubation Pipeline</div><div class="badge-desc">Top ideas fast-tracked directly to Cshine for incubation</div></div>
+      <div class="badge-card reveal reveal-delay-2"><span class="badge-icon">🎤</span><div class="badge-name">Demo Day</div><div class="badge-desc">Best teams present publicly with industry audience present</div></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer-section">
-  <div class="footer-logo">Tech <span>Prowess</span> Team</div>
-  <div class="footer-tagline">"Build Beyond Boundaries"</div>
-  <div class="footer-orgs">
-    <span class="footer-org">KLE Technological University</span>
-    <span class="footer-org">Cshine</span>
-    <span class="footer-org">EE Lab · KLE-CTIE</span>
+<!-- PAGE FOOTER (non-sticky, above sticky bar) -->
+<footer style="background:var(--navy);border-top:1px solid rgba(201,168,76,0.12);padding:3rem 2rem 4rem;text-align:center;">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--white);margin-bottom:0.25rem;">Tech <span style="color:var(--gold);font-style:italic;">Prowess</span> Team</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(255,255,255,0.35);margin-bottom:1.5rem;">"Build Beyond Boundaries"</div>
+  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:2rem;">
+    <span style="font-size:11px;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.1);padding:4px 14px;border-radius:20px;">KLE Technological University</span>
+    <span style="font-size:11px;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.1);padding:4px 14px;border-radius:20px;">Cshine</span>
+    <span style="font-size:11px;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.1);padding:4px 14px;border-radius:20px;">EE Lab · KLE-CTIE</span>
   </div>
-  <div class="footer-sig">Made with ❤ ~rhc · EE Lab, KLE-CTIE &nbsp;·&nbsp; Program Proposal v1.0 · May 2026</div>
 </footer>
 
 <script>
-// Nav scroll effect
+// ── INJECT LOGOS ──
+(function(){
+  function makeImg(src,alt){
+    const img = document.createElement('img');
+    img.src = src; img.alt = alt;
+    img.className = 'nav-logo';
+    return img;
+  }
+  const left = document.getElementById('navLogoLeft');
+  const right = document.getElementById('navLogoRight');
+  if(LOGO_LEFT){ left.parentNode.replaceChild(makeImg(LOGO_LEFT,LOGO_LEFT_ALT),left); }
+  else{ left.textContent = LOGO_LEFT_ALT; }
+  if(LOGO_RIGHT){ right.parentNode.replaceChild(makeImg(LOGO_RIGHT,LOGO_RIGHT_ALT),right); }
+  else{ right.textContent = LOGO_RIGHT_ALT; }
+})();
+
+// ── NAV SCROLL ──
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>60);
 });
 
-// Scroll reveal
+// ── SCROLL REVEAL ──
 const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      // Animate score bars when scoring section visible
-      if (e.target.id === 'scoreBars' || e.target.closest && e.target.closest('#scoring')) {
-        animateBars();
-      }
-    }
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
   });
-}, { threshold: 0.15 });
+},{threshold:0.12});
+reveals.forEach(el=>observer.observe(el));
 
-reveals.forEach(el => observer.observe(el));
-
-// Score bar animation
-let barsAnimated = false;
-function animateBars() {
-  if (barsAnimated) return;
-  barsAnimated = true;
-  document.querySelectorAll('.score-bar-fill').forEach(bar => {
-    const w = bar.getAttribute('data-width');
-    setTimeout(() => { bar.style.width = w + '%'; }, 200);
+// ── SCORE BARS ──
+let barsAnimated=false;
+function animateBars(){
+  if(barsAnimated)return;
+  barsAnimated=true;
+  document.querySelectorAll('.score-bar-fill').forEach(bar=>{
+    const w=bar.getAttribute('data-width');
+    setTimeout(()=>{bar.style.width=w+'%';},200);
   });
 }
-
-// Also trigger bars on scoring section reveal
-const scoringSection = document.querySelector('#scoring');
-const scoringObs = new IntersectionObserver((entries) => {
-  if (entries[0].isIntersecting) animateBars();
-}, { threshold: 0.3 });
-if (scoringSection) scoringObs.observe(scoringSection);
+const scoringSection=document.querySelector('#scoring');
+if(scoringSection){
+  const scoringObs=new IntersectionObserver((entries)=>{
+    if(entries[0].isIntersecting)animateBars();
+  },{threshold:0.3});
+  scoringObs.observe(scoringSection);
+}
 </script>
 </body>
 </html>
